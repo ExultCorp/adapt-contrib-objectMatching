@@ -10,8 +10,10 @@
     "_isRandom": true,
     "_selectable": 4,
     "title": "Object Matching",
+    "displayTitle": "Object Matching",
     "body": "Try to match most close Category with option.",
-    "items": [
+    "instruction": "",
+    "_items": [
         {
             "question": "Farm",
             "answer": "Cow",
@@ -33,12 +35,18 @@
             "backgroundColor": "#F7BB93"
         }
     ],
-    "feedback": {
+    "_feedback": {
         "correct": "Congratulations, your answer is correct.",
-        "partly": "Your answer is partially correct.",
-        "incorrect": "Unfortunately this is the incorrect matching."
+        "_incorrect": {
+            "notFinal": "Sorry this is the incorrect matching.",
+            "final": "Final feedback! Sorry this is the incorrect matching."
+        },
+        "_partlyCorrect": {
+            "notFinal": "Your matching is partially correct.",
+            "final": "Final feedback! Your matching is partially correct."
+        }
     },
-    "buttons": {
+    "_buttons": {
         "submit": "",
         "reset": "",
         "showCorrectAnswer": "",

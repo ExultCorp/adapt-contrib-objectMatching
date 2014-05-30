@@ -1,7 +1,7 @@
 {
   "name": "adapt-contrib-objectMatching",
-  "version": "0.0.1",
-  "description": "Object Matching Template developed by CrediPoint Solutions for Adapt Framework v1.0.0.",
+  "version": "0.0.2",
+  "description": "Object Matching Template developed by CrediPoint Solutions for Adapt Framework v1.1.0.",
   "main": "",
   "scripts": {
     "test": "./node_modules/.bin/karma start --single-run --browsers PhantomJS"
@@ -16,7 +16,7 @@
     "url": "https://github.com/CrediPointSolutions/adapt-contrib-objectMatching/issues"
   },
   "devDependencies": {
-    "karma": "~0.9",
+    "karma": "~0.10",
     "karma-mocha": "*",
     "karma-expect": "*"
   }

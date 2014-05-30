@@ -22,7 +22,7 @@ define(function(require) {
       QuestionView.prototype.initialize.apply(this, arguments);
 
       this.model.set("_currentSelectedCategory", "");
-      _.each(this.model.get("items"), function(item) {
+      _.each(this.model.get("_items"), function(item) {
         item.selectedOption = "";
         item.selectedOptionColor = "";
         item.selected = false;
@@ -34,7 +34,7 @@ define(function(require) {
 
       var categories = [];
       var options = [];
-      _.each(this.model.get("items"), function(item) {
+      _.each(this.model.get("_items"), function(item) {
         categories.push({category: item["question"], categoryColor: item["backgroundColor"]});
         options.push({option: item["answer"]});
       }, this);
@@ -70,7 +70,7 @@ define(function(require) {
       QuestionView.prototype.resetQuestion.apply(this, arguments);
 
       this.model.set("_currentSelectedCategory", "");
-      _.each(this.model.get("items"), function(item) {
+      _.each(this.model.get("_items"), function(item) {
         item.selectedOption = "";
         item.selectedOptionColor = "";
         item.selected = false;
@@ -80,7 +80,7 @@ define(function(require) {
     getItemUsingCategory: function(category) {
       var item;
       if (category) {
-        item = _.filter(this.model.get("items"), function(item) {
+        item = _.filter(this.model.get("_items"), function(item) {
           return category === item["question"];
         }, this)[0];
       }
@@ -90,7 +90,7 @@ define(function(require) {
     getItemUsingOption: function(option) {
       var item;
       if (option) {
-        item = _.filter(this.model.get("items"), function(item) {
+        item = _.filter(this.model.get("_items"), function(item) {
           return option === item["answer"];
         }, this)[0];
       }
@@ -100,7 +100,7 @@ define(function(require) {
     getItemUsingSelectedOption: function(option) {
       var item;
       if (option) {
-        item = _.filter(this.model.get("items"), function(item) {
+        item = _.filter(this.model.get("_items"), function(item) {
           return option === item.selectedOption;
         }, this)[0];
       }
@@ -116,7 +116,7 @@ define(function(require) {
     },
 
     forEachAnswer: function(callback) {
-      _.each(this.model.get("items"), function(item) {
+      _.each(this.model.get("_items"), function(item) {
         var correctSelection = item["answer"] === item.selectedOption;
         if (item.selected && correctSelection) {
           this.model.set("_isAtLeastOneCorrectSelection", true);
@@ -144,7 +144,7 @@ define(function(require) {
     getNumberOfOptionsSelected: function() {
       var count = 0;
 
-      _.each(this.model.get("items"), function(item) {
+      _.each(this.model.get("_items"), function(item) {
         if (item.selected) count++;
       }, this);
 
@@ -157,7 +157,7 @@ define(function(require) {
 
     storeUserAnswer: function() {
       var userAnswer = [];
-      _.each(this.model.get("items"), function(item) {
+      _.each(this.model.get("_items"), function(item) {
         userAnswer.push(item.selected);
       }, this);
       this.model.set("_userAnswer", userAnswer);
@@ -196,7 +196,7 @@ define(function(require) {
                 .attr("category", "");
             }
 
-            var item = _.filter(this.model.get("items"), function(item) {
+            var item = _.filter(this.model.get("_items"), function(item) {
               return item.selectedOption === selectedOption;
             }, this)[0];
 
