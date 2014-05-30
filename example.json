@@ -1,0 +1,47 @@
+{
+    "_id": "c-10",
+    "_parentId": "b-10",
+    "_type": "component",
+    "_component": "objectMatching",
+    "_classes": "",
+    "_layout": "full",
+    "_attempts": 1,
+    "_questionWeight": 20,
+    "_isRandom": true,
+    "_selectable": 4,
+    "title": "Object Matching",
+    "body": "Try to match most close Category with option.",
+    "items": [
+        {
+            "question": "Farm",
+            "answer": "Cow",
+            "backgroundColor": "#8888F7"
+        },
+        {
+            "question": "Wild",
+            "answer": "Tiger",
+            "backgroundColor": "#F08FCC"
+        },
+        {
+            "question": "Stud",
+            "answer": "Horse",
+            "backgroundColor": "#59ADFF"
+        },
+        {
+            "question": "Reptile",
+            "answer": "Turtle",
+            "backgroundColor": "#F7BB93"
+        }
+    ],
+    "feedback": {
+        "correct": "Congratulations, your answer is correct.",
+        "partly": "Your answer is partially correct.",
+        "incorrect": "Unfortunately this is the incorrect matching."
+    },
+    "buttons": {
+        "submit": "",
+        "reset": "",
+        "showCorrectAnswer": "",
+        "hideCorrectAnswer": ""
+    }
+}

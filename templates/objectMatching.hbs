@@ -1,0 +1,64 @@
+{{! Maintainers - Himanshu Rajotia <himanshu.rajotia@credipoint.com>, CrediPoint Solutions <git@credipoint.com>}}
+<div class="objectMatching-inner component-inner">
+    {{#if title}}
+    <div class="objectMatching-title component-title">
+        <h4 class="objectMatching-title-inner component-title-inner">
+            {{{title}}}
+        </h4>
+    </div>
+    {{/if}}
+    {{#if body}}
+    <div class="objectMatching-body component-body">
+        <div class="objectMatching-body-inner component-body-inner">
+            {{{body}}}
+        </div>
+    </div>
+    {{/if}}
+    <div class="objectMatching-widget component-widget {{#unless _isEnabled}} disabled {{#if _isComplete}} complete submitted user {{#if _isCorrect}}correct{{/if}} {{/if}} {{/unless}}">
+        <div class="objectMatching-categories-container">
+            <span>Categories: </span>
+            {{#each categories}}
+            <div class="objectMatching-category-item-container">
+                <div class="objectMatching-category-item" style="background-color: {{{categoryColor}}}">
+                    {{{category}}}
+                </div>
+            </div>
+            {{/each}}
+        </div>
+        <div class="objectMatching-options-container">
+            <span>Options: </span>
+            {{#each options}}
+            <div class="objectMatching-option-item-container item {{#unless ../_isEnabled}} {{#if correct}}correct{{else}}incorrect{{/if}} {{/unless}} item-{{@index}}">
+                <div class="objectMatching-select-state">
+                    <div class="objectMatching-select-icon objectMatching-correct-icon icon icon-tick"></div>
+                    <div class="objectMatching-select-icon objectMatching-incorrect-icon icon icon-cross"></div>
+                </div>
+                <div class="objectMatching-option-item">
+                    {{{option}}}
+                </div>
+            </div>
+            {{/each}}
+        </div>
+        <a href="#" class="button submit">
+        <span>
+            {{{buttons.submit}}}
+        </span>
+        </a>
+        <a href="#" class="button reset">
+        <span>
+            {{{buttons.reset}}}
+        </span>
+        </a>
+        <a href="#" class="button model">
+        <span>
+            {{{buttons.showCorrectAnswer}}}
+        </span>
+        </a>
+
+        <a href="#" class="button user">
+        <span>
+            {{{buttons.hideCorrectAnswer}}}
+        </span>
+        </a>
+    </div>
+</div>
