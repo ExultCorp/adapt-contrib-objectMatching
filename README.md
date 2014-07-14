@@ -56,7 +56,7 @@ The question contain question text.
 
 The answer contains answer text.
 
-###questionBGColor
+####questionBGColor
 
 This will contain the color which user want as background for this question tab. this will also get applied to the answer tab if learner select it.
 
