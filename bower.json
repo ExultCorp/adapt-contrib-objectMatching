@@ -1,14 +1,14 @@
 {
   "name": "adapt-contrib-objectMatching",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "homepage": "https://github.com/CrediPointSolutions/adapt-contrib-objectMatching",
   "authors": [
-    "Himanshu Rajotia <himanshu.rajotia@credipoint.com>",
-    "CrediPoint Solutions <git@credipoint.com>"
+    "Himanshu Rajotia <himanshu.rajotia@credipoint.com>"
   ],
   "description": "Object Matching Template developed by CrediPoint Solutions for Adapt Framework v1.1.0.",
   "main": "/js/adapt-contrib-objectMatching.js",
   "displayName" : "Object Matching",
+  "component" : "objectMatching",
   "keywords": [
     "adapt-plugin",
     "adapt-component"

@@ -1,0 +1,107 @@
+{
+    "type":"object",
+    "$schema": "http://json-schema.org/draft-04/schema",
+    "id": "http://jsonschema.net",
+    "$ref": "http://localhost/plugins/content/component/model.schema",
+    "properties": {
+        "_attempts": {
+            "type": "number",
+            "required": true,
+            "default": 1
+        },
+        "_isRandom": {
+            "type": "boolean",
+            "required": true
+        },
+        "_questionWeight": {
+            "type": "number",
+            "required": false
+        },
+        "_categoryTitle": {
+            "type": "string",
+            "required": false
+        },
+        "_optionTitle": {
+            "type": "string",
+            "required": false
+        },
+        "_defaultAnswerBGColor": {
+            "type": "string",
+            "required": false
+        },
+        "_items": {
+            "type": "array",
+            "required":true,
+            "items": {
+                "type": "object",
+                "required":true,
+                "properties": {
+                    "question": {
+                        "type": "string",
+                        "required": true
+                    },
+                    "answer": {
+                        "type": "string",
+                        "required": true
+                    },
+                    "questionBGColor": {
+                        "type": "string",
+                        "required": true
+                    }
+                }
+            }
+        },
+        "_buttons": {
+            "type": "object",
+            "properties": {
+                "hideCorrectAnswer": {
+                    "type": "string"
+                },
+                "reset": {
+                    "type": "string"
+                },
+                "showCorrectAnswer": {
+                    "type": "string"
+                },
+                "submit": {
+                    "type": "string"
+                }
+            }
+        },
+        "_feedback": {
+            "type": "object",
+            "required": true,
+            "properties": {
+                "_incorrect": {
+                    "type": "object",
+                    "required": true,
+                    "properties": {
+                        "final": {
+                            "type": "string"
+                        },
+                        "notFinal": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "_partlyCorrect": {
+                    "type": "object",
+                    "required": true,
+                    "properties": {
+                        "final": {
+                            "type": "string",
+                            "required": true
+                        },
+                        "notFinal": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "correct": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        }
+    }
+}

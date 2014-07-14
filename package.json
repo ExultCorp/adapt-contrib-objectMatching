@@ -1,6 +1,6 @@
 {
   "name": "adapt-contrib-objectMatching",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Object Matching Template developed by CrediPoint Solutions for Adapt Framework v1.1.0.",
   "main": "",
   "scripts": {
@@ -10,14 +10,14 @@
     "type": "git",
     "url": "git://github.com/CrediPointSolutions/adapt-contrib-objectMatching.git"
   },
-  "author": "CrediPointSolutions",
+  "author": "AdaptLearning",
   "license": "GPL v3",
   "bugs": {
     "url": "https://github.com/CrediPointSolutions/adapt-contrib-objectMatching/issues"
   },
   "devDependencies": {
-    "karma": "~0.10",
-    "karma-mocha": "*",
-    "karma-expect": "*"
+    "karma": "0.10",
+    "karma-mocha": "0.1.0",
+    "karma-expect": "1.1.0"
   }
 }

@@ -40,6 +40,10 @@ You can use this setting to add custom classes to your template and LESS file.
 
 This defines the position of the component in the block. Values can be `full`, `left` or `right`.
 
+###_defaultAnswerBGColor
+
+This define default background color for all answer items.
+
 ####_item
 
 Each item represents one element of the objectMatching. Text values can be entered for `question`,`answer` and `backgroundColor` for each element.
@@ -52,9 +56,9 @@ The question contain question text.
 
 The answer contains answer text.
 
-###background
+###questionBGColor
 
-This will contain  name or hax code of the color which user want as background for this question tab.
+This will contain the color which user want as background for this question tab. this will also get applied to the answer tab if learner select it.
 
 ##Limitations
 

@@ -1,270 +1,261 @@
 /*
  * adapt-contrib-objectMatching
  * License - https://github.com/CrediPointSolutions/adapt-contrib-objectMatching/blob/master/LICENSE
- * Maintainers - Himanshu Rajotia <himanshu.rajotia@credipoint.com>, CrediPoint Solutions <git@credipoint.com>
+ * Maintainers - Himanshu Rajotia <himanshu.rajotia@credipoint.com>
  */
 define(function(require) {
-  var QuestionView = require("coreViews/questionView");
-  var Adapt = require("coreJS/adapt");
+    var QuestionView = require("coreViews/questionView");
+    var Adapt = require("coreJS/adapt");
 
-  var ObjectMatching = QuestionView.extend({
+    var ObjectMatching = QuestionView.extend({
 
-    events: {
-      "click .objectMatching-widget .button.submit": "onSubmitClicked",
-      "click .objectMatching-widget .button.reset": "onResetClicked",
-      "click .objectMatching-widget .button.model": "onModelAnswerClicked",
-      "click .objectMatching-widget .button.user": "onUserAnswerClicked",
-      "click .objectMatching-category-item": "onCategoryClicked",
-      "click .objectMatching-option-item": "onOptionClicked"
-    },
+        events: {
+            "click .objectMatching-category-item-name": "onCategorySelected",
+            "click .objectMatching-option-item-name": "onOptionSelected"
+        },
 
-    initialize: function() {
-      QuestionView.prototype.initialize.apply(this, arguments);
+        // Used by the question to reset the question when revisiting the component
+        resetQuestionOnRevisit: function() {
+            this.setAllItemsEnabled(true);
+            this.resetQuestion();
+        },
 
-      this.model.set("_currentSelectedCategory", "");
-      _.each(this.model.get("_items"), function(item) {
-        item.selectedOption = "";
-        item.selectedOptionColor = "";
-        item.selected = false;
-      }, this);
-    },
+        // Used by question to setup itself just before rendering
+        setupQuestion: function() {
+            this.setupModel();
+        },
 
-    preRender: function() {
-      QuestionView.prototype.preRender.apply(this);
-
-      var categories = [];
-      var options = [];
-      _.each(this.model.get("_items"), function(item) {
-        categories.push({category: item["question"], categoryColor: item["backgroundColor"]});
-        options.push({option: item["answer"]});
-      }, this);
-
-      if (this.model.get("_isRandom") && this.model.get("_isEnabled")) {
-        categories = _.shuffle(categories);
-        options = _.shuffle(options);
-      }
-      this.model.set("categories", categories);
-      this.model.set("options", options);
-
-      this.setDeviceSize();
-    },
-
-    setDeviceSize: function() {
-      if (Adapt.device.screenSize === "large") {
-        this.$el.addClass("desktop").removeClass("mobile");
-        this.model.set("_isDesktop", true);
-      } else {
-        this.$el.addClass("mobile").removeClass("desktop");
-        this.model.set("_isDesktop", false)
-      }
-    },
-
-    postRender: function() {
-      QuestionView.prototype.postRender.apply(this);
-
-      this.setResetButtonEnabled(false);
-      this.setReadyStatus();
-    },
-
-    resetQuestion: function(properties) {
-      QuestionView.prototype.resetQuestion.apply(this, arguments);
-
-      this.model.set("_currentSelectedCategory", "");
-      _.each(this.model.get("_items"), function(item) {
-        item.selectedOption = "";
-        item.selectedOptionColor = "";
-        item.selected = false;
-      }, this);
-    },
-
-    getItemUsingCategory: function(category) {
-      var item;
-      if (category) {
-        item = _.filter(this.model.get("_items"), function(item) {
-          return category === item["question"];
-        }, this)[0];
-      }
-      return item;
-    },
-
-    getItemUsingOption: function(option) {
-      var item;
-      if (option) {
-        item = _.filter(this.model.get("_items"), function(item) {
-          return option === item["answer"];
-        }, this)[0];
-      }
-      return item;
-    },
-
-    getItemUsingSelectedOption: function(option) {
-      var item;
-      if (option) {
-        item = _.filter(this.model.get("_items"), function(item) {
-          return option === item.selectedOption;
-        }, this)[0];
-      }
-      return item;
-    },
-
-    canSubmit: function() {
-      return this.getNumberOfOptionsSelected() === this.model.get("_selectable");
-    },
-
-    canReset: function() {
-      return !this.$(".objectMatching-widget, .button.reset").hasClass("disabled");
-    },
-
-    forEachAnswer: function(callback) {
-      _.each(this.model.get("_items"), function(item) {
-        var correctSelection = item["answer"] === item.selectedOption;
-        if (item.selected && correctSelection) {
-          this.model.set("_isAtLeastOneCorrectSelection", true);
-        }
-        callback(correctSelection, item);
-      }, this);
-    },
-
-    markQuestion: function() {
-      this.forEachAnswer(function(correct, item) {
-        item.correct = correct;
-      });
-      QuestionView.prototype.markQuestion.apply(this);
-    },
-
-    resetItems: function() {
-      this.$(".objectMatching-category-item-container").removeClass("objectMatching-category-item-container-border");
-      this.$(".objectMatching-category-item").addClass("objectMatching-cursor-pointer");
-      this.$(".objectMatching-option-item")
-        .addClass("objectMatching-cursor-pointer")
-        .attr("category", "")
-        .css("backgroundColor", "#C1D4EC");
-    },
-
-    getNumberOfOptionsSelected: function() {
-      var count = 0;
-
-      _.each(this.model.get("_items"), function(item) {
-        if (item.selected) count++;
-      }, this);
-
-      return count;
-    },
-
-    setResetButtonEnabled: function(enabled) {
-      this.$(".button.reset").toggleClass("disabled", !enabled);
-    },
-
-    storeUserAnswer: function() {
-      var userAnswer = [];
-      _.each(this.model.get("_items"), function(item) {
-        userAnswer.push(item.selected);
-      }, this);
-      this.model.set("_userAnswer", userAnswer);
-    },
-
-    onCategoryClicked: function(event) {
-      event.preventDefault();
-      var $selectedElement = $(event.target);
-      if (this.model.get("_currentSelectedCategory") === $selectedElement.text().trim()) {
-        this.$(".objectMatching-category-item-container").removeClass("objectMatching-category-item-container-border");
-        this.model.set("_currentSelectedCategory", "");
-      } else if (this.model.get("_isEnabled") && !this.model.get("_isSubmitted")) {
-        this.$(".objectMatching-category-item-container").removeClass("objectMatching-category-item-container-border");
-        $selectedElement.closest(".objectMatching-category-item-container").addClass("objectMatching-category-item-container-border");
-        this.model.set("_currentSelectedCategory", $selectedElement.text().trim());
-      }
-    },
-
-    onOptionClicked: function(event) {
-      event.preventDefault();
-      var $selectedElement = $(event.target);
-      var selectedOption = $selectedElement.text().trim();
-      if (this.model.get("_isEnabled") && !this.model.get("_isSubmitted") && this.model.get("_currentSelectedCategory")) {
-        var currentItem = this.getItemUsingCategory(this.model.get("_currentSelectedCategory"));
-        if (currentItem) {
-          if (currentItem["question"] === $selectedElement.attr("category") && currentItem.selectedOption === selectedOption) {
-            currentItem.selectedOption = "";
-            currentItem.selectedOptionColor = "";
-            currentItem.selected = false;
-            $selectedElement.css("backgroundColor", "#C1D4EC");
-            this.$(".objectMatching-option-item[category=" + currentItem["question"] + "]").attr("category", "");
-          } else {
-            if (currentItem.selectedOption) {
-              this.$(".objectMatching-option-item[category=" + currentItem["question"] + "]")
-                .css("backgroundColor", "#C1D4EC")
-                .attr("category", "");
+        setupModel: function() {
+            if(!this.model.get('_defaultAnswerBGColor')) {
+                this.model.set('_defaultAnswerBGColor', '#C1D4EC');
             }
+            this.model.set("_selectedCategoryId", "");
 
-            var item = _.filter(this.model.get("_items"), function(item) {
-              return item.selectedOption === selectedOption;
+            if(!this.model.get("_isSubmitted")) {
+                var categories = [],
+                    options = [];
+
+                _.each(this.model.get("_items"), function(item, index) {
+                    item['id'] = index;
+                    categories.push({id: index, category: item["question"], categoryColor: item["questionBGColor"]});
+                    options.push({id: index, option: item["answer"]});
+                }, this);
+
+                if(this.model.get("_isRandom") && this.model.get("_isEnabled")) {
+                    categories = _.shuffle(categories);
+                    options = _.shuffle(options);
+                }
+
+                this.model.set("categoryItems", categories);
+                this.model.set("optionItems", options);
+            }
+        },
+
+        // Used by question to disable the question during submit and complete stages
+        disableQuestion: function() {
+            this.setAllItemsEnabled(false);
+        },
+
+        // Used by question to enable the question during interactions
+        enableQuestion: function() {
+            this.setAllItemsEnabled(true);
+        },
+
+        setAllItemsEnabled: function(isEnabled) {
+            if(isEnabled) {
+                this.$('.objectMatching-widget').removeClass('disabled');
+            } else {
+                this.$('.objectMatching-widget').addClass('disabled');
+            }
+        },
+
+        // Used by question to setup itself just after rendering
+        onQuestionRendered: function() {
+            this.setReadyStatus();
+        },
+
+        onCategorySelected: function(event) {
+            event.preventDefault();
+            if(!this.model.get("_isEnabled") || this.model.get("_isSubmitted")) return;
+
+            this.$(".objectMatching-category-item").removeClass("objectMatching-category-item-border");
+
+            var $selectedElement = $(event.target);
+            if(this.model.get("_selectedCategoryId") === $selectedElement.attr('data-id')) {
+                this.model.set("_selectedCategoryId", "");
+            } else {
+                $selectedElement.closest(".objectMatching-category-item").addClass("objectMatching-category-item-border");
+                this.model.set("_selectedCategoryId", $selectedElement.attr('data-id'));
+            }
+        },
+
+        onOptionSelected: function(event) {
+            event.preventDefault();
+            if(!this.model.get("_isEnabled") || this.model.get("_isSubmitted") || !this.model.get("_selectedCategoryId")) return;
+
+            var $selectedElement = $(event.target);
+            var selectedOptionId = parseInt($selectedElement.attr('data-id'));
+            var selectedItem = this.getItemById(this.model.get("_selectedCategoryId"));
+            if(selectedItem.selectedOptionId && selectedItem.selectedOptionId === selectedOptionId) {
+                selectedItem.selectedOptionId = '';
+                selectedItem._isSelected = false;
+                $selectedElement.css("backgroundColor", this.model.get("_defaultAnswerBGColor"));
+            } else {
+                if(selectedItem.selectedOptionId) {
+                    var previousSelectedItem = this.getItemById(selectedItem.selectedOptionId);
+
+                    this.$(".objectMatching-option-item-name[data-id='" + previousSelectedItem['id'] + "']")
+                        .css("backgroundColor", this.model.get("_defaultAnswerBGColor"));
+
+                    previousSelectedItem.selectedOptionId = '';
+                    previousSelectedItem._isSelected = false;
+                }
+
+                selectedItem.selectedOptionId = selectedOptionId;
+                selectedItem._isSelected = true;
+                $selectedElement.css("backgroundColor", selectedItem['questionBGColor']);
+            }
+        },
+
+        getItemById: function(id) {
+            return _.filter(this.model.get("_items"), function(item) {
+                return id == item['id'];
             }, this)[0];
+        },
 
-            if (item) {
-              item.selectedOption = "";
-              item.selectedOptionColor = "";
-              item.selected = false;
-            }
+        getOptionItemById: function(id) {
+            return _.filter(this.model.get("optionItems"), function(optionItems) {
+                return id == optionItems['id'];
+            }, this)[0];
+        },
 
-            currentItem.selectedOption = selectedOption;
-            currentItem.selectedOptionColor = currentItem["backgroundColor"];
-            currentItem.selected = true;
-            $selectedElement.css("backgroundColor", currentItem.selectedOptionColor);
-            $selectedElement.attr("category", currentItem["question"]);
-          }
+        //Use to check if the user is allowed to submit the question
+        canSubmit: function() {
+            return this.getNumberOfOptionsSelected() === this.model.get("_items").length;
+        },
+
+        getNumberOfOptionsSelected: function() {
+            return _.filter(this.model.get("_items"),function(item) {
+                return item._isSelected;
+            }, this).length;
+        },
+
+        // Blank method for question to fill out when the question cannot be submitted
+        onCannotSubmit: function() {
+        },
+
+        //This preserve the state of the users answers for returning or showing the users answer
+        storeUserAnswer: function() {
+            var userAnswer = [];
+            _.each(this.model.get('_items'), function(item, index) {
+                userAnswer.push(_.extend({}, item));
+            }, this);
+            this.model.set('_userAnswer', userAnswer);
+        },
+
+        // this return a boolean based upon whether to question is correct or not
+        isCorrect: function() {
+            var numberOfCorrectAnswers = 0;
+
+            _.each(this.model.get('_userAnswer'), function(item, index) {
+                var correctSelected = item.id == item.selectedOptionId;
+                if(item._isSelected && correctSelected) {
+                    numberOfCorrectAnswers++;
+                    item._isCorrect = true;
+                    var optionItem = this.getOptionItemById(item['id']);
+                    optionItem['_isCorrect'] = true;
+                    this.model.set('_numberOfCorrectAnswers', numberOfCorrectAnswers);
+                    this.model.set('_isAtLeastOneCorrectSelection', true);
+                } else {
+                    item._isCorrect = false;
+                    this.getOptionItemById(item['id'])['_isCorrect'] = false;
+                }
+
+            }, this);
+
+            return numberOfCorrectAnswers === this.model.get('_items').length;
+        },
+
+        // Used to set the score based upon the _questionWeight
+        setScore: function() {
+            var numberOfCorrectAnswers = this.model.get('_numberOfCorrectAnswers');
+            var questionWeight = this.model.get("_questionWeight");
+            var itemLength = this.model.get('_items').length;
+
+            var score = questionWeight * numberOfCorrectAnswers / itemLength;
+
+            this.model.set('_score', score);
+        },
+
+        // This is important and should give the user feedback on how they answered the question
+        // Normally done through ticks and crosses by adding classes
+        showMarking: function() {
+            this.$(".objectMatching-category-item").removeClass("objectMatching-category-item-border");
+
+            _.each(this.model.get('optionItems'), function(item, index) {
+                var $item = this.$('.objectMatching-option-item').eq(index);
+                $item.addClass(item._isCorrect ? 'correct' : 'incorrect');
+            }, this);
+        },
+
+        // Used by the question to determine if the question is incorrect or partly correct
+        isPartlyCorrect: function() {
+            return this.model.get('_isAtLeastOneCorrectSelection');
+        },
+
+        // Used by the question view to reset the stored user answer
+        resetUserAnswer: function() {
+            this.model.set({
+                _selectedCategoryId: '',
+                _userAnswer: []
+            });
+        },
+
+        // Used by the question view to reset the look and feel of the component.
+        // This could also include resetting item data
+        resetQuestion: function() {
+            this.$(".objectMatching-category-item").removeClass("objectMatching-category-item-border");
+
+            _.each(this.model.get("_items"), function(item) {
+                item.selectedOptionId = "";
+                item._isSelected = false;
+                item._isCorrect = false;
+            }, this);
+
+            this.resetItems();
+        },
+
+        resetItems: function() {
+            this.$(".objectMatching-category-item").removeClass("objectMatching-category-item-border");
+            this.$(".objectMatching-category-item-name").addClass("objectMatching-cursor-pointer");
+            this.$(".objectMatching-option-item-name")
+                .addClass("objectMatching-cursor-pointer")
+                .css("backgroundColor", this.model.get("_defaultAnswerBGColor"));
+        },
+
+        // Used by the question to display the correct answer to the user
+        showCorrectAnswer: function() {
+            _.each(this.model.get('_items'), function(item) {
+                var $element = this.$('.objectMatching-option-item-name[data-id=' + item['id'] + ']');
+                $element.css('backgroundColor', item['questionBGColor']);
+            }, this);
+        },
+
+        // Used by the question to display the users answer and
+        // hide the correct answer
+        // Should use the values stored in storeUserAnswer
+        hideCorrectAnswer: function() {
+            console.log("hideCorrectAnswer", this.model.get('_userAnswer'), this.model)
+            _.each(this.model.get('_userAnswer'), function(item) {
+                var $element = this.$('.objectMatching-option-item-name[data-id=' + item['selectedOptionId'] + ']');
+                $element.css('backgroundColor', item['questionBGColor']);
+            }, this);
         }
-      }
-    },
 
-    onResetClicked: function(event) {
-      if (this.canReset()) {
-        QuestionView.prototype.onResetClicked.apply(this, arguments);
-      } else {
-        if (event) {
-          event.preventDefault();
-        }
-      }
-    },
+    });
 
-    onSubmitClicked: function(event) {
-      QuestionView.prototype.onSubmitClicked.apply(this, arguments);
+    Adapt.register("objectMatching", ObjectMatching);
 
-      if (this.canSubmit()) {
-        this.$(".objectMatching-category-item-container").removeClass("objectMatching-category-item-container-border");
-        this.setResetButtonEnabled(!this.model.get("_isComplete"));
-      }
-    },
-
-    onUserAnswerShown: function(event) {
-      _.each(this.$(".objectMatching-option-item"), function(optionItem) {
-        var $element = $(optionItem);
-        var category = $element.attr("category");
-        var item = this.getItemUsingSelectedOption($element.text().trim());
-        if (item) {
-          $element.css("backgroundColor", item["backgroundColor"]);
-          if (item["answer"] === item.selectedOption) {
-            $element.closest(".item").removeClass("correct incorrect").addClass("correct");
-          } else {
-            $element.closest(".item").removeClass("correct incorrect").addClass("incorrect");
-          }
-        }
-      }, this);
-    },
-
-    onModelAnswerShown: function() {
-      _.each(this.$(".objectMatching-option-item"), function(optionItem) {
-        var $element = $(optionItem);
-        var item = this.getItemUsingOption($element.text().trim());
-        if (item) {
-          $element.css("backgroundColor", item["backgroundColor"]);
-        }
-      }, this);
-    }
-
-  });
-
-  Adapt.register("objectMatching", ObjectMatching);
-
-  return ObjectMatching;
+    return ObjectMatching;
 
 });

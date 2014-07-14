@@ -1,6 +1,6 @@
 {
-    "_id": "c-10",
-    "_parentId": "b-10",
+    "_id": "c-135",
+    "_parentId": "b-70",
     "_type": "component",
     "_component": "objectMatching",
     "_classes": "",
@@ -8,31 +8,33 @@
     "_attempts": 1,
     "_questionWeight": 20,
     "_isRandom": true,
-    "_selectable": 4,
     "title": "Object Matching",
     "displayTitle": "Object Matching",
     "body": "Try to match most close Category with option.",
     "instruction": "",
+    "_categoryTitle": "Categories:",
+    "_optionTitle": "Options:",
+    "_defaultAnswerBGColor": "#C1D4EC",
     "_items": [
         {
             "question": "Farm",
             "answer": "Cow",
-            "backgroundColor": "#8888F7"
+            "questionBGColor": "#8888F7"
         },
         {
             "question": "Wild",
             "answer": "Tiger",
-            "backgroundColor": "#F08FCC"
+            "questionBGColor": "#F08FCC"
         },
         {
             "question": "Stud",
             "answer": "Horse",
-            "backgroundColor": "#59ADFF"
+            "questionBGColor": "#59ADFF"
         },
         {
             "question": "Reptile",
             "answer": "Turtle",
-            "backgroundColor": "#F7BB93"
+            "questionBGColor": "#F7BB93"
         }
     ],
     "_feedback": {
@@ -51,5 +53,8 @@
         "reset": "",
         "showCorrectAnswer": "",
         "hideCorrectAnswer": ""
+    },
+    "_pageLevelProgress": {
+        "_isEnabled": true
     }
 }

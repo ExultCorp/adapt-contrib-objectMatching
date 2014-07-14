@@ -1,126 +1,134 @@
-@background-color-option-item: #C1D4EC;
-@border-width: 1px;
-@border-width-large: 4px;
-@border-style: solid;
-@border-color-category-item-container-border: #1E90FF;
-@font-color-text: #FFFFFF;
-
-.objectMatching-component {
-
-  .objectMatching-inner {
-    width: auto;
-  }
-
-  .objectMatching-widget {
-    width: 100%;
-    display: inline-block;
-  }
-
-  .objectMatching-categories-container, .objectMatching-options-container {
-    position: relative;
-    width: 50%;
-    margin-bottom: 8px;
-    float: left;
-    border-color: transparent;
-  }
-
-  .objectMatching-category-item-container, .objectMatching-option-item-container {
-    position: relative;
-    display: block;
-    margin: 5px 0;
-    border-width: @border-width-large;
-    border-style: @border-style;
-    border-color: transparent;
-  }
-
-  .objectMatching-category-item-container-border {
-    border-color: @border-color-category-item-container-border;
-  }
-
-  .objectMatching-category-item, .objectMatching-option-item {
-    padding: 5px;
-    margin: 5px;
-    text-align: center;
-    color: @font-color-text;
-    cursor: pointer
-  }
-
-  .objectMatching-option-item {
-    background-color: @background-color-option-item;
-  }
-
-  .objectMatching-select-icon {
-    color: @item-text-color;
-  }
-
-  .objectMatching-correct-icon {
-    color: @icon-correct-color;
-    display: none;
-  }
-
-  .objectMatching-incorrect-icon {
-    color: @icon-incorrect-color;
-    display: none;
-  }
-
-  .objectMatching-select-state {
-    background: none;
-    position: absolute;
-    display: none;
-    left: 10px;
-    width: @icon-size;
-    height: @icon-size;
-    top: 50%;
-    margin-top: -(@icon-size/2);
-    z-index: 0;
-  }
-
-  .objectMatching-widget {
+.objectMatching-widget {
 
     &.submitted {
-      .objectMatching-category-item, .objectMatching-option-item {
-        cursor: default
-      }
+        .no-touch .objectMatching-category-item-name, .objectMatching-option-item-name {
+            cursor:default;
+        }
     }
 
-    &.user {
-      .objectMatching-select-icon {
-        display: none;
-      }
-      .incorrect {
-        .objectMatching-incorrect-icon {
-          display: block;
+    &.show-user-answer {
+        .objectMatching-select-icon {
+            display:none;
         }
-      }
-      .correct {
+        .incorrect {
+            .objectMatching-incorrect-icon {
+                display:block;
+            }
+        }
+        .correct {
+            .objectMatching-correct-icon {
+                display:block;
+            }
+        }
+    }
+
+    &.show-correct-answer {
+        .objectMatching-select-icon {
+            display:none;
+        }
         .objectMatching-correct-icon {
-          display: block;
+            display:block;
         }
-      }
-    }
-
-    &.model {
-      .objectMatching-select-icon {
-        display: none;
-      }
-      .objectMatching-correct-icon {
-        display: block;
-      }
     }
 
     &.disabled {
-      .objectMatching-select-state {
-        display: block;
-      }
+        .objectMatching-category-item-name, .objectMatching-option-item-name {
+            cursor:default;
+        }
+        .objectMatching-select-state {
+            display:block;
+        }
     }
 
-  }
+}
 
-  @media (max-width: 760px) {
+.objectMatching-component {
+
+    .objectMatching-inner {
+        width:auto;
+    }
+
+    .objectMatching-widget {
+        width:100%;
+        display:inline-block;
+    }
 
     .objectMatching-categories-container, .objectMatching-options-container {
-      width: 100%;
+        position:relative;
+        width:50%;
+        margin-bottom:8px;
+        float:left;
+        border-color:transparent;
     }
 
-  }
+    .objectMatching-category-title, .objectMatching-option-title {
+        text-align:center;
+        font-size: 20px;
+        font-weight:bold;
+        line-height: 30px;
+    }
+
+    .objectMatching-category-item, .objectMatching-option-item {
+        position:relative;
+        display:block;
+        margin:5px 0;
+        border-width:4px;
+        border-style:@item-border-style;
+        border-color:transparent;
+    }
+
+    .objectMatching-category-item-border {
+        border-color:#1E90FF;
+    }
+
+    .objectMatching-category-item-name, .objectMatching-option-item-name {
+        padding:5px;
+        margin:5px;
+        text-align:center;
+        color:@item-text-color;
+        cursor:pointer;
+        -webkit-user-select:none;
+        -moz-user-select:none;
+        -ms-user-select:none;
+        -o-user-select:none;
+        user-select:none;
+    }
+
+    .objectMatching-option-item-name {
+        padding-left:25px;
+    }
+
+    .objectMatching-select-icon {
+        color:@item-text-color;
+    }
+
+    .objectMatching-correct-icon {
+        color:@icon-correct-color;
+        display:none;
+    }
+
+    .objectMatching-incorrect-icon {
+        color:@icon-incorrect-color;
+        display:none;
+    }
+
+    .objectMatching-select-state {
+        background:none;
+        position:absolute;
+        display:none;
+        left:10px;
+        width:@icon-size;
+        height:@icon-size;
+        top:50%;
+        margin-top:-(@icon-size/2);
+        z-index:0;
+    }
+
+    @media (max-width:760px) {
+
+        .objectMatching-categories-container, .objectMatching-options-container {
+            width:100%;
+        }
+
+    }
 }
