@@ -1,16 +1,27 @@
-#adapt-contrib-objectMatching
+# adapt-contrib-objectMatching
 
-Object Matching Component/Plug-in developed by CrediPoint Solutions for Adapt Framework v1.1.0.
+Object Matching Component/Plug-in developed by Exult Corporation for Adapt Framework.
 
 A basic Object Matching Component/Plug-in that try to match most close items.
 
-##Installation
+[Visit the **ObjectMatching** wiki](https://github.com/ExultCorp/adapt-contrib-objectMatching/wiki) for more information about its functionality and for explanations of key properties.
 
-First, be sure to install the [Adapt Command Line Interface](https://github.com/cajones/adapt-cli), then from the command line run:
+## Installation
 
-		adapt install adapt-contrib-objectMatching
+* If **ObjectMatching** has been uninstalled from the Adapt framework, it may be reinstalled.
+With the [Adapt CLI](https://github.com/adaptlearning/adapt-cli) installed, run the following from the command line:
+`adapt install adapt-contrib-objectMatching`
 
-##Usage
+    Alternatively, this component can also be installed by adding the following line of code to the *adapt.json* file:  
+    `"adapt-contrib-objectMatching": "*"`  
+    Then running the command:  
+    `adapt install`  
+    (This second method will reinstall all plug-ins listed in *adapt.json*.)  
+
+* If **ObjectMatching** has been uninstalled from the Adapt authoring tool, it may be reinstalled using the [Plug-in Manager](https://github.com/adaptlearning/adapt_authoring/wiki/Plugin-Manager).  
+<div float align=right><a href="#top">Back to Top</a></div>
+
+## Usage
 
 Once installed, the component can be used to create a question with one or more clickable tab based answers. Once the reader selects all their answers, the question may be submitted.
 
@@ -22,48 +33,38 @@ If one or more answers are incorrect, the user may reset their submission, and t
 
 Further submission is not available.
 
-##Settings overview
+## Settings overview
 
-For example JSON format, see [example.json](https://github.com/CrediPointSolutions/adapt-contrib-objectMatching/blob/master/example.json).
+A complete example of this components settings can be found in the [example.json](https://github.com/ExultCorp/adapt-contrib-objectMatching/blob/master/example.json) file. A description of the core settings can be found at: [Core model attributes](https://github.com/adaptlearning/adapt_framework/wiki/Core-model-attributes)
+
+### Attributes
 
 Further settings for this component are:
 
-####_component
+**_component** (string): This value must be: `objectMatching`
 
-This value must be: `objectMatching`
+**_classes** (string): CSS class name to be applied to **ObjectMatching**’s containing `div`. The class must be predefined in one of the Less files. Separate multiple classes with a space.
 
-####_classes
+**_layout** (string): This defines the horizontal position of the component in the block. Acceptable values are `full`, `left` or `right`.
 
-You can use this setting to add custom classes to your template and LESS file.
+**_defaultAnswerBGColor** (string): This define default background color for all option items.
 
-####_layout
+**_items** (array): Multiple items may be created. Each *item* represents one element of the objectMatching. Text values can be entered for **question**, **answer** and **backgroundColor** for each element.
 
-This defines the position of the component in the block. Values can be `full`, `left` or `right`.
+>**question** (string): Text that functions as the question.  
 
-####_defaultAnswerBGColor
+>**answer** (string): The answer contains option text.  
 
-This define default background color for all answer items.
+>**questionBGColor** (string): This will contain the color which user want as background for this question tab. this will also get applied to the answer tab if learner select it.
 
-####_item
+### Accessibility
+**ObjectMatching** has been assigned a label using the [aria-label](https://github.com/adaptlearning/adapt_framework/wiki/Aria-Labels) attribute: **ariaRegion**. This label is not a visible element. It is utilized by assistive technology such as screen readers. Should the region's text need to be customised, it can be found within the **globals** object in [*properties.schema*](https://github.com/adaptlearning/adapt-contrib-matching/blob/master/properties.schema).   
+<div float align=right><a href="#top">Back to Top</a></div>
 
-Each item represents one element of the objectMatching. Text values can be entered for `question`,`answer` and `backgroundColor` for each element.
+## Limitations  
+ 
+No known limitations.
 
-####question
-
-The question contain question text.
-
-####answer
-
-The answer contains answer text.
-
-####questionBGColor
-
-This will contain the color which user want as background for this question tab. this will also get applied to the answer tab if learner select it.
-
-##Limitations
-
-To be completed.
-
-##Browser spec
+## Browser spec
 
 This component has been tested to the standard Adapt browser specification.
