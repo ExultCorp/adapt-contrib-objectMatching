@@ -1,60 +1,81 @@
 {
-    "_id": "c-135",
-    "_parentId": "b-70",
-    "_type": "component",
-    "_component": "objectMatching",
-    "_classes": "",
-    "_layout": "full",
-    "_attempts": 1,
-    "_questionWeight": 20,
-    "_isRandom": true,
-    "title": "Object Matching",
-    "displayTitle": "Object Matching",
-    "body": "Try to match most close Category with option.",
-    "instruction": "",
-    "_categoryTitle": "Categories:",
-    "_optionTitle": "Options:",
-    "_defaultAnswerBGColor": "#C1D4EC",
-    "_items": [
-        {
-            "question": "Farm",
-            "answer": "Cow",
-            "questionBGColor": "#8888F7"
-        },
-        {
-            "question": "Wild",
-            "answer": "Tiger",
-            "questionBGColor": "#F08FCC"
-        },
-        {
-            "question": "Stud",
-            "answer": "Horse",
-            "questionBGColor": "#59ADFF"
-        },
-        {
-            "question": "Reptile",
-            "answer": "Turtle",
-            "questionBGColor": "#F7BB93"
-        }
-    ],
-    "_feedback": {
-        "correct": "Congratulations, your answer is correct.",
-        "_incorrect": {
-            "notFinal": "Sorry this is the incorrect matching.",
-            "final": "Final feedback! Sorry this is the incorrect matching."
-        },
-        "_partlyCorrect": {
-            "notFinal": "Your matching is partially correct.",
-            "final": "Final feedback! Your matching is partially correct."
-        }
+  "_id": "c-135",
+  "_parentId": "b-70",
+  "_type": "component",
+  "_component": "objectMatching",
+  "_classes": "",
+  "_layout": "full",
+  "_attempts": 1,
+  "_questionWeight": 20,
+  "_isRandom": true,
+  "_shouldDisplayAttempts": false,
+  "_canShowModelAnswer": true,
+  "_recordInteraction": true,
+  "title": "Object Matching",
+  "displayTitle": "Object Matching",
+  "body": "Try to match most close Category with option.",
+  "instruction": "",
+  "_categoryTitle": "Categories:",
+  "_optionTitle": "Options:",
+  "_defaultAnswerBGColor": "#C1D4EC",
+  "_items": [
+    {
+      "question": "Farm",
+      "answer": "Cow",
+      "questionBGColor": "#8888F7"
     },
-    "_buttons": {
-        "submit": "",
-        "reset": "",
-        "showCorrectAnswer": "",
-        "hideCorrectAnswer": ""
+    {
+      "question": "Wild",
+      "answer": "Tiger",
+      "questionBGColor": "#F08FCC"
     },
-    "_pageLevelProgress": {
-        "_isEnabled": true
+    {
+      "question": "Stud",
+      "answer": "Horse",
+      "questionBGColor": "#59ADFF"
+    },
+    {
+      "question": "Reptile",
+      "answer": "Turtle",
+      "questionBGColor": "#F7BB93"
     }
+  ],
+  "_feedback": {
+    "correct": "This feedback will appear if you answered the question correctly.",
+    "_incorrect": {
+      "notFinal": "",
+      "final": "This feedback will appear if you answered the question incorrectly."
+    },
+    "_partlyCorrect": {
+      "notFinal": "",
+      "final": "This feedback will appear if you answered part of the question correctly."
+    }
+  },
+  "_buttons": {
+    "_submit": {
+      "buttonText": "Submit",
+      "ariaLabel": "Select here to submit your answer."
+    },
+    "_reset": {
+      "buttonText": "Reset",
+      "ariaLabel": ""
+    },
+    "_showCorrectAnswer": {
+      "buttonText": "Correct Answer",
+      "ariaLabel": ""
+    },
+    "_hideCorrectAnswer": {
+      "buttonText": "My Answer",
+      "ariaLabel": ""
+    },
+    "_showFeedback": {
+      "buttonText": "Show feedback",
+      "ariaLabel": ""
+    },
+    "remainingAttemptsText": "attempts remaining",
+    "remainingAttemptText": "final attempt"
+  },
+  "_pageLevelProgress": {
+    "_isEnabled": true
+  }
 }

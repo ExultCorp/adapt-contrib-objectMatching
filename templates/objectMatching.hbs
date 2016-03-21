@@ -1,16 +1,18 @@
-{{! Maintainers - Himanshu Rajotia <himanshu.rajotia@credipoint.com>}}
-<div class="objectMatching-inner component-inner">
+{{! Maintainers - Himanshu Rajotia <himanshu.rajotia@exultcorp.com>}}
+<div class="objectMatching-inner component-inner" role="region" aria-label="{{_globals._components._objectMatching.ariaRegion}}" {{#if _globals._components._objectMatching.ariaRegion}}tabindex="0"{{/if}}>
     {{> component this}}
-    <div class="objectMatching-widget component-widget {{#unless _isEnabled}} disabled {{#if _isComplete}} complete submitted show-user-answer {{#if _isCorrect}}correct{{/if}} {{/if}} {{/unless}}">
+    <div class="objectMatching-widget component-widget{{#unless _isEnabled}} disabled {{#if _isInteractionComplete}} complete submitted show-user-answer {{#if _isCorrect}}correct{{/if}} {{/if}} {{/unless}}">
         <div class="objectMatching-categories-container">
             {{#if _categoryTitle}}
             <div class="objectMatching-category-title">{{{_categoryTitle}}}</div>
             {{/if}}
             {{#each categoryItems}}
-            <div class="objectMatching-category-item">
-                <div data-id="{{{id}}}" class="objectMatching-category-item-name" style="background-color: {{{categoryColor}}}">
-                {{{category}}}
-                </div>
+            <div class="objectMatching-category-item-cotainer">
+                <button data-id="{{{id}}}" class="base objectMatching-category-item" style="background-color: {{{categoryColor}}}" aria-label="{{category}}">
+                    <div class="objectMatching-category-item-inner">
+                        {{{category}}}
+                    </div>
+                </button>
             </div>
             {{/each}}
         </div>
@@ -19,14 +21,16 @@
             <div class="objectMatching-option-title">{{{_optionTitle}}}</div>
             {{/if}}
             {{#each optionItems}}
-            <div class="objectMatching-option-item item {{#unless ../_isEnabled}} {{#if _isCorrect}}correct{{else}}incorrect{{/if}} {{/unless}} item-{{@index}}">
+            <div class="objectMatching-option-item-cotainer item {{#unless ../_isEnabled}} {{#if _isCorrect}}correct{{else}}incorrect{{/if}} {{/unless}} item-{{@index}}">
                 <div class="objectMatching-select-state">
                     <div class="objectMatching-select-icon objectMatching-correct-icon icon icon-tick"></div>
                     <div class="objectMatching-select-icon objectMatching-incorrect-icon icon icon-cross"></div>
                 </div>
-                <div data-id="{{{id}}}" class="objectMatching-option-item-name" style="background-color: {{{../_defaultAnswerBGColor}}}">
-                    {{{option}}}
-                </div>
+                <button data-id="{{{id}}}" class="base objectMatching-option-item" style="background-color: {{{../_defaultAnswerBGColor}}}" aria-label="{{option}}">
+                    <div class="objectMatching-option-item-inner">
+                        {{{option}}}
+                    </div>
+                </button>
             </div>
             {{/each}}
         </div>

@@ -1,17 +1,18 @@
 /*
  * adapt-contrib-objectMatching
- * License - https://github.com/CrediPointSolutions/adapt-contrib-objectMatching/blob/master/LICENSE
- * Maintainers - Himanshu Rajotia <himanshu.rajotia@credipoint.com>
+ * License - https://github.com/ExultCorp/adapt-contrib-objectMatching/blob/master/LICENSE
+ * Maintainers - Himanshu Rajotia <himanshu.rajotia@exultcorp.com>
  */
-define(function(require) {
-    var QuestionView = require("coreViews/questionView");
-    var Adapt = require("coreJS/adapt");
+define([
+    'coreJS/adapt',
+    'coreViews/questionView'
+], function(Adapt, QuestionView) {
 
     var ObjectMatching = QuestionView.extend({
 
         events: {
-            "click .objectMatching-category-item-name": "onCategorySelected",
-            "click .objectMatching-option-item-name": "onOptionSelected"
+            "click .objectMatching-category-item": "onCategorySelected",
+            "click .objectMatching-option-item": "onOptionSelected"
         },
 
         // Used by the question to reset the question when revisiting the component
@@ -78,13 +79,13 @@ define(function(require) {
             event.preventDefault();
             if(!this.model.get("_isEnabled") || this.model.get("_isSubmitted")) return;
 
-            this.$(".objectMatching-category-item").removeClass("objectMatching-category-item-border");
+            this.$(".objectMatching-category-item-cotainer").removeClass("objectMatching-category-item-border");
 
-            var $selectedElement = $(event.target);
+            var $selectedElement = $(event.currentTarget);
             if(this.model.get("_selectedCategoryId") === $selectedElement.attr('data-id')) {
                 this.model.set("_selectedCategoryId", "");
             } else {
-                $selectedElement.closest(".objectMatching-category-item").addClass("objectMatching-category-item-border");
+                $selectedElement.closest(".objectMatching-category-item-cotainer").addClass("objectMatching-category-item-border");
                 this.model.set("_selectedCategoryId", $selectedElement.attr('data-id'));
             }
         },
@@ -93,7 +94,7 @@ define(function(require) {
             event.preventDefault();
             if(!this.model.get("_isEnabled") || this.model.get("_isSubmitted") || !this.model.get("_selectedCategoryId")) return;
 
-            var $selectedElement = $(event.target);
+            var $selectedElement = $(event.currentTarget);
             var selectedOptionId = parseInt($selectedElement.attr('data-id'));
             var selectedItem = this.getItemById(this.model.get("_selectedCategoryId"));
             if(selectedItem.selectedOptionId && selectedItem.selectedOptionId === selectedOptionId) {
@@ -104,7 +105,7 @@ define(function(require) {
                 if(selectedItem.selectedOptionId) {
                     var previousSelectedItem = this.getItemById(selectedItem.selectedOptionId);
 
-                    this.$(".objectMatching-option-item-name[data-id='" + previousSelectedItem['id'] + "']")
+                    this.$(".objectMatching-option-item[data-id='" + previousSelectedItem['id'] + "']")
                         .css("backgroundColor", this.model.get("_defaultAnswerBGColor"));
 
                     previousSelectedItem.selectedOptionId = '';
@@ -190,10 +191,10 @@ define(function(require) {
         // This is important and should give the user feedback on how they answered the question
         // Normally done through ticks and crosses by adding classes
         showMarking: function() {
-            this.$(".objectMatching-category-item").removeClass("objectMatching-category-item-border");
+            this.$(".objectMatching-category-item-cotainer").removeClass("objectMatching-category-item-border");
 
             _.each(this.model.get('optionItems'), function(item, index) {
-                var $item = this.$('.objectMatching-option-item').eq(index);
+                var $item = this.$('.objectMatching-option-item-cotainer').eq(index);
                 $item.addClass(item._isCorrect ? 'correct' : 'incorrect');
             }, this);
         },
@@ -214,7 +215,7 @@ define(function(require) {
         // Used by the question view to reset the look and feel of the component.
         // This could also include resetting item data
         resetQuestion: function() {
-            this.$(".objectMatching-category-item").removeClass("objectMatching-category-item-border");
+            this.$(".objectMatching-category-item-cotainer").removeClass("objectMatching-category-item-border");
 
             _.each(this.model.get("_items"), function(item) {
                 item.selectedOptionId = "";
@@ -226,9 +227,9 @@ define(function(require) {
         },
 
         resetItems: function() {
-            this.$(".objectMatching-category-item").removeClass("objectMatching-category-item-border");
-            this.$(".objectMatching-category-item-name").addClass("objectMatching-cursor-pointer");
-            this.$(".objectMatching-option-item-name")
+            this.$(".objectMatching-category-item-cotainer").removeClass("objectMatching-category-item-border");
+            this.$(".objectMatching-category-item").addClass("objectMatching-cursor-pointer");
+            this.$(".objectMatching-option-item")
                 .addClass("objectMatching-cursor-pointer")
                 .css("backgroundColor", this.model.get("_defaultAnswerBGColor"));
         },
@@ -236,7 +237,7 @@ define(function(require) {
         // Used by the question to display the correct answer to the user
         showCorrectAnswer: function() {
             _.each(this.model.get('_items'), function(item) {
-                var $element = this.$('.objectMatching-option-item-name[data-id=' + item['id'] + ']');
+                var $element = this.$('.objectMatching-option-item[data-id=' + item['id'] + ']');
                 $element.css('backgroundColor', item['questionBGColor']);
             }, this);
         },
@@ -245,9 +246,8 @@ define(function(require) {
         // hide the correct answer
         // Should use the values stored in storeUserAnswer
         hideCorrectAnswer: function() {
-            console.log("hideCorrectAnswer", this.model.get('_userAnswer'), this.model)
             _.each(this.model.get('_userAnswer'), function(item) {
-                var $element = this.$('.objectMatching-option-item-name[data-id=' + item['selectedOptionId'] + ']');
+                var $element = this.$('.objectMatching-option-item[data-id=' + item['selectedOptionId'] + ']');
                 $element.css('backgroundColor', item['questionBGColor']);
             }, this);
         }
