@@ -1,107 +1,351 @@
 {
-    "type":"object",
-    "$schema": "http://json-schema.org/draft-04/schema",
-    "id": "http://jsonschema.net",
-    "$ref": "http://localhost/plugins/content/component/model.schema",
-    "properties": {
-        "_attempts": {
-            "type": "number",
-            "required": true,
-            "default": 1
-        },
-        "_isRandom": {
-            "type": "boolean",
-            "required": true
-        },
-        "_questionWeight": {
-            "type": "number",
-            "required": false
-        },
-        "_categoryTitle": {
-            "type": "string",
-            "required": false
-        },
-        "_optionTitle": {
-            "type": "string",
-            "required": false
-        },
-        "_defaultAnswerBGColor": {
-            "type": "string",
-            "required": false
-        },
-        "_items": {
-            "type": "array",
-            "required":true,
-            "items": {
-                "type": "object",
-                "required":true,
-                "properties": {
-                    "question": {
-                        "type": "string",
-                        "required": true
-                    },
-                    "answer": {
-                        "type": "string",
-                        "required": true
-                    },
-                    "questionBGColor": {
-                        "type": "string",
-                        "required": true
-                    }
-                }
-            }
-        },
-        "_buttons": {
-            "type": "object",
-            "properties": {
-                "hideCorrectAnswer": {
-                    "type": "string"
-                },
-                "reset": {
-                    "type": "string"
-                },
-                "showCorrectAnswer": {
-                    "type": "string"
-                },
-                "submit": {
-                    "type": "string"
-                }
-            }
-        },
-        "_feedback": {
-            "type": "object",
-            "required": true,
-            "properties": {
-                "_incorrect": {
-                    "type": "object",
-                    "required": true,
-                    "properties": {
-                        "final": {
-                            "type": "string"
-                        },
-                        "notFinal": {
-                            "type": "string"
-                        }
-                    }
-                },
-                "_partlyCorrect": {
-                    "type": "object",
-                    "required": true,
-                    "properties": {
-                        "final": {
-                            "type": "string",
-                            "required": true
-                        },
-                        "notFinal": {
-                            "type": "string"
-                        }
-                    }
-                },
-                "correct": {
-                    "type": "string",
-                    "required": true
-                }
-            }
-        }
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "id": "http://jsonschema.net",
+  "$ref": "http://localhost/plugins/content/component/model.schema",
+  "globals": {
+    "ariaRegion": {
+      "type": "string",
+      "required": true,
+      "default": "This question component requires you to select the matching option. When you have selected your answers select the submit button.",
+      "inputType": "Text",
+      "validators": []
     }
+  },
+  "properties": {
+    "_supportedLayout": {
+      "type": "string",
+      "required": true,
+      "enum": ["full-width", "half-width", "both"],
+      "default": "half-width",
+      "editorOnly": true
+    },
+    "instruction": {
+      "type": "string",
+      "required": false,
+      "default": "",
+      "inputType": "Text",
+      "validators": [],
+      "help": "This is the instruction text"
+    },
+    "_attempts": {
+      "type":"number",
+      "required":true,
+      "default":1,
+      "title": "Attempts",
+      "inputType":"Number",
+      "validators": ["required", "number"],
+      "help": "How many attempts the learner is allowed"
+    },
+    "_shouldDisplayAttempts": {
+      "type":"boolean",
+      "required":false,
+      "default": false,
+      "title": "Display Attempts",
+      "inputType": {"type": "Boolean", "options": [true, false]},
+      "validators": [],
+      "help": "Select 'true' to display the numbers of attempts left"
+    },
+    "_isRandom": {
+      "type":"boolean",
+      "required":false,
+      "default": true,
+      "title": "Randomised Items",
+      "inputType": {"type": "Boolean", "options": [true, false]},
+      "validators": [],
+      "help": "If set to 'true', all items will be randomised"
+    },
+    "_questionWeight": {
+      "type":"number",
+      "required":false,
+      "default": 1,
+      "title": "Question Weight",
+      "inputType": "Number",
+      "validators": ["number"],
+      "help": "How much this question is worth"
+    },
+    "_recordInteraction": {
+      "type":"boolean",
+      "required":false,
+      "default": true,
+      "title": "Record interaction",
+      "inputType": {"type": "Boolean", "options": [true, false]},
+      "validators": [],
+      "help": "If set to 'true', the user's answer(s) will be recorded to cmi.interactions on the LMS (where supported)."
+    },
+    "_categoryTitle": {
+      "type": "string",
+      "required": false,
+      "default": "",
+      "title": "Category Title",
+      "inputType": "Text",
+      "validators": [],
+      "help": "This is the category title text"
+    },
+    "_optionTitle": {
+      "type": "string",
+      "required": false,
+      "default": "",
+      "title": "Option Title",
+      "inputType": "Text",
+      "validators": [],
+      "help": "This is the option title text"
+    },
+    "_defaultAnswerBGColor": {
+      "type": "string",
+      "required": false,
+      "default": "#C1D4EC",
+      "title": "Default Answer BG Color",
+      "inputType": "Text",
+      "validators": [],
+      "help": "This is the default background color for options"
+    },
+    "_items": {
+      "type": "array",
+      "required": true,
+      "title": "Object Matching Items",
+      "items": {
+        "type": "object",
+        "required": true,
+        "properties": {
+          "question": {
+            "type":"string",
+            "required":true,
+            "default": "",
+            "title": "Category Text",
+            "inputType": "Text",
+            "validators": ["required"],
+            "help": "Title text for matching category"
+          },
+          "answer": {
+            "type":"string",
+            "required":true,
+            "default": "",
+            "title": "Option Text",
+            "inputType": "Text",
+            "validators": ["required"],
+            "help": "Title text for matching option"
+          },
+          "questionBGColor": {
+            "type":"string",
+            "required":true,
+            "default": "",
+            "inputType": "Text",
+            "validators": ["required"],
+            "help": "Background color for matching category"
+          }
+        }
+      }
+    },
+    "_feedback": {
+      "type":"object",
+      "required":true,
+      "title": "Feedback",
+      "properties":{
+        "correct": {
+          "type":"string",
+          "required":true,
+          "default": "",
+          "title": "Correct",
+          "inputType": "TextArea",
+          "validators": ["required"],
+          "help": "Correct feedback for this question"
+        },
+        "_incorrect": {
+          "type":"object",
+          "required":true,
+          "title": "Incorrect Feedback",
+          "properties":{
+            "final": {
+              "type":"string",
+              "required": true,
+              "default": "",
+              "title": "Incorrect Final",
+              "inputType": "TextArea",
+              "validators": ["required"],
+              "help": "Incorrect feedback for the final attempt"
+            },
+            "notFinal": {
+              "type":"string",
+              "required": false,
+              "default": "",
+              "title": "Incorrect Not Final",
+              "inputType": "TextArea",
+              "validators": [],
+              "help": "Incorrect feedback for any attempt apart from the last attempt"
+            }
+          }
+        },
+        "_partlyCorrect": {
+          "type":"object",
+          "required":false,
+          "properties":{
+            "final": {
+              "type":"string",
+              "required": false,
+              "default": "",
+              "title": "Partly Correct Final",
+              "inputType": "TextArea",
+              "validators": [],
+              "help": "Partly correct feedback for the final attempt"
+            },
+            "notFinal": {
+              "type":"string",
+              "required": false,
+              "default": "",
+              "title": "Partly Correct Not Final",
+              "inputType": "TextArea",
+              "validators": [],
+              "help": "Partly correct feedback for any attempt apart from the last attempt"
+            }
+          }
+        }
+      }
+    },
+    "_buttons": {
+      "type":"object",
+      "title": "Buttons",
+      "required": false,
+      "properties":{
+        "_submit": {
+          "type":"object",
+          "title": "Submit",
+          "properties":{
+            "buttonText": {
+              "type":"string",
+              "required": false,
+              "default": "",
+              "title": "",
+              "inputType": "QuestionButton",
+              "validators": [],
+              "help": "Button label text for the submit button"
+            },
+            "ariaLabel": {
+              "type":"string",
+              "required": false,
+              "default": "",
+              "title": "",
+              "inputType": "Text",
+              "validators": [],
+              "help": "Aria label for the submit button"
+            }
+          }
+        },
+        "_reset": {
+          "type":"object",
+          "title": "Reset",
+          "properties":{
+            "buttonText": {
+              "type":"string",
+              "required": false,
+              "default": "",
+              "title": "",
+              "inputType": "QuestionButton",
+              "validators": [],
+              "help": "Button label text for the reset button"
+            },
+            "ariaLabel": {
+              "type":"string",
+              "required": false,
+              "default": "",
+              "title": "",
+              "inputType": "Text",
+              "validators": [],
+              "help": "Aria label for the reset button"
+            }
+          }
+        },
+        "_showCorrectAnswer": {
+          "type":"object",
+          "title": "Show Correct Answer",
+          "properties":{
+            "buttonText": {
+              "type":"string",
+              "required": false,
+              "default": "",
+              "title": "",
+              "inputType": "QuestionButton",
+              "validators": [],
+              "help": "Button label text to show the model answer"
+            },
+            "ariaLabel": {
+              "type":"string",
+              "required": false,
+              "default": "",
+              "title": "",
+              "inputType": "Text",
+              "validators": [],
+              "help": "Aria label for the show model answer button"
+            }
+          }
+        },
+        "_hideCorrectAnswer": {
+          "type":"object",
+          "title": "Hide Correct Answer",
+          "properties":{
+            "buttonText": {
+              "type":"string",
+              "required": false,
+              "default": "",
+              "title": "",
+              "inputType": "QuestionButton",
+              "validators": [],
+              "help": "Button label text to hide the model answer"
+            },
+            "ariaLabel": {
+              "type":"string",
+              "required": false,
+              "default": "",
+              "title": "",
+              "inputType": "Text",
+              "validators": [],
+              "help": "Aria label for the hide model answer button"
+            }
+          }
+        },
+        "_showFeedback": {
+          "type":"object",
+          "title": "Show Feedback",
+          "properties":{
+            "buttonText": {
+              "type":"string",
+              "required": false,
+              "default": "",
+              "title": "",
+              "inputType": "QuestionButton",
+              "validators": [],
+              "help": "Button label text to show feedback"
+            },
+            "ariaLabel": {
+              "type":"string",
+              "required": false,
+              "default": "",
+              "title": "",
+              "inputType": "Text",
+              "validators": [],
+              "help": "Aria label for the show feedback button"
+            }
+          }
+        },
+        "remainingAttemptsText": {
+          "type":"string",
+          "required": false,
+          "default": "",
+          "title": "Attempts Remaining Text",
+          "inputType": "Text",
+          "validators": [],
+          "help": "Shown when there are multiple attempts left"
+        },
+        "remainingAttemptText": {
+          "type":"string",
+          "required": false,
+          "default": "",
+          "title": "Final Attempt Text",
+          "inputType": "Text",
+          "validators": [],
+          "help": "Shown when there is one attempt left"
+        }
+      }
+    }
+  }
 }
