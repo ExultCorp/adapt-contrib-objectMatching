@@ -263,9 +263,10 @@ define([
         // hide the correct answer
         // Should use the values stored in storeUserAnswer
         hideCorrectAnswer: function () {
-            _.each(this.model.get('_items'), function (item) {
-                var $element = this.$('.objectMatching-option-item[data-id=' + item['selectedOptionId'] + ']');
-                $element.css('backgroundColor', item['questionBGColor']);
+            _.each(this.model.get('_items'), function (item, index, list) {
+                var selected_opt = item['selectedOptionId'];
+                var $element = this.$('.objectMatching-option-item[data-id=' + item['id'] + ']');
+                $element.css('backgroundColor', list[+selected_opt]['questionBGColor']);
             }, this);
         },
 
