@@ -10,7 +10,7 @@
             <div class="objectMatching-category-title">{{{_categoryTitle}}}</div>
             {{/if}}
             {{#each categoryItems}}
-            <div class="objectMatching-category-item-cotainer">
+            <div class="objectMatching-category-item-container">
                 <button data-id="{{{id}}}" class="base objectMatching-category-item"
                     style="background-color: {{{categoryColor}}}" aria-label="{{category}}">
                     <div class="objectMatching-category-item-inner">
@@ -26,7 +26,7 @@
             {{/if}}
             {{#each optionItems}}
             <div
-                class="objectMatching-option-item-cotainer item {{#unless ../_isEnabled}} {{#if _isCorrect}}correct{{else}}incorrect{{/if}} {{/unless}} item-{{@index}}">
+                class="objectMatching-option-item-container item {{#unless ../_isEnabled}} {{#if _isCorrect}}correct{{else}}incorrect{{/if}} {{/unless}} item-{{@index}}">
                 <div class="objectMatching-select-state">
                     <div class="objectMatching-select-icon objectMatching-correct-icon icon icon-tick"></div>
                     <div class="objectMatching-select-icon objectMatching-incorrect-icon icon icon-cross"></div>

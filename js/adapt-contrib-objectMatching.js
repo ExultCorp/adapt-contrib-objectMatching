@@ -85,7 +85,7 @@ define([
             event.preventDefault();
             if (!this.model.get("_isEnabled") || this.model.get("_isSubmitted")) return;
 
-            this.$(".objectMatching-category-item-cotainer").removeClass("objectMatching-category-item-border");
+            this.$(".objectMatching-category-item-container").removeClass("objectMatching-category-item-border");
 
             var $selectedCategoryElement = $(event.currentTarget);
             var categoryItemId = $selectedCategoryElement.attr('data-id');
@@ -93,7 +93,7 @@ define([
                 this.model.set("_selectedCategoryId", "");
                 return;
             }
-            $selectedCategoryElement.closest(".objectMatching-category-item-cotainer").addClass("objectMatching-category-item-border");
+            $selectedCategoryElement.closest(".objectMatching-category-item-container").addClass("objectMatching-category-item-border");
             this.model.set("_selectedCategoryId", categoryItemId);
         },
 
@@ -111,14 +111,14 @@ define([
                 $selectedOptionElement.css("backgroundColor", this.model.get("_defaultAnswerBGColor"));
                 return;
             }
-            this.removePeviouslySelectedOption(categoryItem['id']);
+            this.removePreviouslySelectedOption(categoryItem['id']);
             selectedItem.selectedOptionId = categoryItem['id'];
             selectedItem._isSelected = true;
             $selectedOptionElement.css("backgroundColor", categoryItem['questionBGColor']);
 
         },
 
-        removePeviouslySelectedOption: function (selectedOptionId) {
+        removePreviouslySelectedOption: function (selectedOptionId) {
             var defaultColor = this.model.get("_defaultAnswerBGColor");
             _.each(this.model.get("_items"), function (item) {
                 if (item.selectedOptionId == selectedOptionId) {
@@ -208,10 +208,11 @@ define([
         // Normally done through ticks and crosses by adding classes
         showMarking: function () {
             if (!this.model.get('_canShowMarking')) return;
-            this.$(".objectMatching-category-item-cotainer").removeClass("objectMatching-category-item-border");
+            this.$(".objectMatching-category-item-container").removeClass("objectMatching-category-item-border");
 
             _.each(this.model.get('optionItems'), function (item, index) {
-                var $item = this.$('.objectMatching-option-item-cotainer').eq(index);
+                var $item = this.$('.objectMatching-option-item-container').eq(index);
+                $item.removeClass('correct incorrect');
                 $item.addClass(item._isCorrect ? 'correct' : 'incorrect');
             }, this);
         },
@@ -232,7 +233,7 @@ define([
         // Used by the question view to reset the look and feel of the component.
         // This could also include resetting item data
         resetQuestion: function () {
-            this.$(".objectMatching-category-item-cotainer").removeClass("objectMatching-category-item-border");
+            this.$(".objectMatching-category-item-container").removeClass("objectMatching-category-item-border");
 
             _.each(this.model.get("_items"), function (item) {
                 item.selectedOptionId = "";
@@ -244,7 +245,7 @@ define([
         },
 
         resetItems: function () {
-            this.$(".objectMatching-category-item-cotainer").removeClass("objectMatching-category-item-border");
+            this.$(".objectMatching-category-item-container").removeClass("objectMatching-category-item-border");
             this.$(".objectMatching-category-item").addClass("objectMatching-cursor-pointer");
             this.$(".objectMatching-option-item")
                 .addClass("objectMatching-cursor-pointer")
